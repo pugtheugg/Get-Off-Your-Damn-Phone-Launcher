@@ -18,9 +18,5 @@ Welcome to the Get Off Your Damn Phone Launcher (GOYDP Launcher)! This minimalis
 ### Getting Started
 1. **Home Screen:**
    - Access your favorite apps quickly from the main screen.
-2. **App Usage Tracking:**
-   - View detailed statistics on your app usage.
-3. **Set Reminders:**
-   - Navigate to `Settings > Reminders` to set up personalized reminders.
-4. **Customize Appearance:**
-   - Adjust the look and feel of the launcher under `Settings > Appearance`.
+2. **All Apps Screen:**
+   - Search though all your apps.
