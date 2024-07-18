@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:id="@+id/app_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary" />
+
+    <EditText
+        android:id="@+id/textRename"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="New Name"
+        android:textColorHint="@color/colorPrimary"
+        android:inputType="text"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:background="@null"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingTop="16dp">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:background="@null"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@null"
+            android:textColor="@color/colorBackground"
+            android:layout_marginStart="16dp"
+            android:textSize="15sp"/>
+    </LinearLayout>
+</LinearLayout>
