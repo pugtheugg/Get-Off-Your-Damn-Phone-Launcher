@@ -31,6 +31,8 @@ class HomeFragment : Fragment()  {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val editButton: Button = view.findViewById(R.id.editButton)
         val createFolderButton: Button = view.findViewById(R.id.createFolderButton)
+        val launcherSettingsButton: Button = view.findViewById(R.id.launcherSettingsButton)
+
         createFolderButton.alpha = 0.0f
 
         sharedViewModel = ViewModelProvider(requireActivity())[SharedAppData::class.java]
@@ -55,6 +57,11 @@ class HomeFragment : Fragment()  {
             createFolderButton.alpha = if (isEditMode) 1.0f else 0.0f
 
             favoriteAppsAdaptor.updateEditMode(isEditMode)
+        }
+
+        launcherSettingsButton.setOnClickListener {
+            val intent = Intent(requireContext(), SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         createFolderButton.setOnClickListener {

@@ -43,7 +43,7 @@
             android:id="@+id/createFolderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Folder"
+            android:text="+Folder"
             android:background="@null"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="@color/colorBackground"
