@@ -2,6 +2,7 @@ package com.example.getoffyourdamnphonelauncher
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -18,10 +19,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class HomeFragment : Fragment()  {
+class HomeFragment(private val primaryColorHex : String, private val backgroundColorHex : String) : Fragment()  {
+    private lateinit var layout: androidx.constraintlayout.widget.ConstraintLayout
     private lateinit var appRecyclerView: RecyclerView
     private lateinit var favoriteAppsAdaptor: FavoriteAppsAdaptor
+    private lateinit var viewBar: View
+    private lateinit var editButton: Button
+    private lateinit var folderButton: Button
+    private lateinit var settingsButton: Button
+
     private var isEditMode = false
+
     private lateinit var sharedViewModel: SharedAppData
 
     override fun onCreateView(
@@ -29,18 +37,24 @@ class HomeFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val editButton: Button = view.findViewById(R.id.editButton)
-        val createFolderButton: Button = view.findViewById(R.id.createFolderButton)
-        val launcherSettingsButton: Button = view.findViewById(R.id.launcherSettingsButton)
 
-        createFolderButton.alpha = 0.0f
+        layout = view.findViewById(R.id.layout)
+
+        viewBar = view.findViewById(R.id.viewBar)
+        editButton = view.findViewById(R.id.editButton)
+        folderButton = view.findViewById(R.id.createFolderButton)
+        settingsButton = view.findViewById(R.id.launcherSettingsButton)
+
+        setColors(primaryColorHex, backgroundColorHex)
+
+        folderButton.alpha = 0.0f
 
         sharedViewModel = ViewModelProvider(requireActivity())[SharedAppData::class.java]
 
         appRecyclerView = view.findViewById(R.id.app_recycler_view)
         appRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        favoriteAppsAdaptor = FavoriteAppsAdaptor(this@HomeFragment, sharedViewModel)
+        favoriteAppsAdaptor = FavoriteAppsAdaptor(this@HomeFragment, sharedViewModel, primaryColorHex, backgroundColorHex)
         appRecyclerView.adapter = favoriteAppsAdaptor
 
         sharedViewModel.apps.observe(viewLifecycleOwner) { appList ->
@@ -54,18 +68,18 @@ class HomeFragment : Fragment()  {
 
             isEditMode = !isEditMode
             editButton.text = if (isEditMode) "Done" else "Edit"
-            createFolderButton.alpha = if (isEditMode) 1.0f else 0.0f
+            folderButton.alpha = if (isEditMode) 1.0f else 0.0f
 
             favoriteAppsAdaptor.updateEditMode(isEditMode)
         }
 
-        launcherSettingsButton.setOnClickListener {
+        settingsButton.setOnClickListener {
             val intent = Intent(requireContext(), SettingsActivity::class.java)
             startActivity(intent)
         }
 
-        createFolderButton.setOnClickListener {
-            if (createFolderButton.alpha == 0.0f) return@setOnClickListener
+        folderButton.setOnClickListener {
+            if (folderButton.alpha == 0.0f) return@setOnClickListener
 
             Log.i("Create folder button pressed", "")
             //showCreateFolderDialog(appList.value)
@@ -77,10 +91,19 @@ class HomeFragment : Fragment()  {
     fun showContextMenu(app: AppData) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.home_fragment_apps_context_menu, null)
         val appTitle: TextView = dialogView.findViewById(R.id.app_title)
+        val viewBar: View = dialogView.findViewById(R.id.viewBar)
         val appInfoOption: TextView = dialogView.findViewById(R.id.app_info)
         val favoritesOption: TextView = dialogView.findViewById(R.id.add_to_favorites)
         val uninstallOption: TextView = dialogView.findViewById(R.id.uninstall)
         val renameOption: TextView = dialogView.findViewById(R.id.rename_app)
+
+        dialogView.setBackgroundColor(Color.parseColor(backgroundColorHex))
+        appTitle.setTextColor(Color.parseColor(primaryColorHex))
+        viewBar.setBackgroundColor(Color.parseColor(primaryColorHex))
+        appInfoOption.setTextColor(Color.parseColor(primaryColorHex))
+        favoritesOption.setTextColor(Color.parseColor(primaryColorHex))
+        uninstallOption.setTextColor(Color.parseColor(primaryColorHex))
+        renameOption.setTextColor(Color.parseColor(primaryColorHex))
 
         appTitle.text = getString(R.string.app_title, app.name, app.originalName)
         val isFavorite = sharedViewModel.isAppFavorite(app)
@@ -167,9 +190,24 @@ class HomeFragment : Fragment()  {
 
         dialog.show()
     }
+
+    private fun setColors(primaryColorHex : String, backgroundColorHex : String) {
+        layout.setBackgroundColor(Color.parseColor(backgroundColorHex))
+
+        viewBar.setBackgroundColor(Color.parseColor(primaryColorHex))
+
+        editButton.setBackgroundColor(Color.parseColor(primaryColorHex))
+        editButton.setTextColor(Color.parseColor(backgroundColorHex))
+
+        settingsButton.setBackgroundColor(Color.parseColor(primaryColorHex))
+        settingsButton.setTextColor(Color.parseColor(backgroundColorHex))
+
+        folderButton.setBackgroundColor(Color.parseColor(primaryColorHex))
+        folderButton.setTextColor(Color.parseColor(backgroundColorHex))
+    }
 }
 
-class FavoriteAppsAdaptor(private val fragment: HomeFragment, private var sharedViewModel: SharedAppData) : RecyclerView.Adapter<FavoriteAppsAdaptor.AppViewHolder>() {
+class FavoriteAppsAdaptor(private val fragment: HomeFragment, private var sharedViewModel: SharedAppData, private val primaryColorHex : String, private val backgroundColorHex : String) : RecyclerView.Adapter<FavoriteAppsAdaptor.AppViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_favorite_app, parent, false)
         return AppViewHolder(view)
@@ -208,9 +246,16 @@ class FavoriteAppsAdaptor(private val fragment: HomeFragment, private var shared
         val pm: PackageManager = holder.itemView.context.packageManager
         val app = appList[position]
         holder.appName.text = app.name
+        holder.appName.setTextColor(Color.parseColor(primaryColorHex))
 
         if (isEditMode) {
             holder.buttonContainer.visibility = View.VISIBLE
+
+            holder.buttonUp.setBackgroundColor(Color.parseColor(backgroundColorHex))
+            holder.buttonUp.setTextColor(Color.parseColor(primaryColorHex))
+
+            holder.buttonDown.setBackgroundColor(Color.parseColor(backgroundColorHex))
+            holder.buttonDown.setTextColor(Color.parseColor(primaryColorHex))
 
             when (app.favoritePosition) {
                 getLowestFavoritePosition() -> {

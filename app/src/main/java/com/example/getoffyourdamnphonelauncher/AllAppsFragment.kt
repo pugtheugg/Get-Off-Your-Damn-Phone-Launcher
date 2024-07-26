@@ -3,6 +3,7 @@ package com.example.getoffyourdamnphonelauncher
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -22,10 +23,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import android.provider.Settings
+import android.widget.FrameLayout
 
-class AllAppsFragment : Fragment() {
+class AllAppsFragment(private val primaryColorHex : String, private val backgroundColorHex : String) : Fragment() {
 
+    private lateinit var layout: FrameLayout
     private lateinit var appSearchBar: EditText
+    private lateinit var viewBar: View
+
     private lateinit var settingsButton: ImageButton
     private lateinit var appRecyclerView: RecyclerView
     private lateinit var allAppsAdaptor: AllAppsAdaptor
@@ -36,13 +41,18 @@ class AllAppsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
+        layout = view.findViewById(R.id.layout)
         appSearchBar = view.findViewById(R.id.app_search_bar)
+        viewBar = view.findViewById(R.id.viewBar)
+
         settingsButton = view.findViewById(R.id.settings_button)
         appRecyclerView = view.findViewById(R.id.app_recycler_view)
 
         appRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        allAppsAdaptor = AllAppsAdaptor(this@AllAppsFragment)
+        allAppsAdaptor = AllAppsAdaptor(this@AllAppsFragment, primaryColorHex, backgroundColorHex)
         appRecyclerView.adapter = allAppsAdaptor
+
+        setColors(primaryColorHex, backgroundColorHex)
 
         sharedViewModel = ViewModelProvider(requireActivity())[SharedAppData::class.java]
 
@@ -193,10 +203,21 @@ class AllAppsFragment : Fragment() {
 
         dialog.show()
     }
+
+    private fun setColors(primaryColorHex : String, backgroundColorHex : String) {
+        layout.setBackgroundColor(Color.parseColor(backgroundColorHex))
+
+        appSearchBar.setTextColor(Color.parseColor(primaryColorHex))
+        appSearchBar.setHintTextColor(Color.parseColor(primaryColorHex))
+
+        viewBar.setBackgroundColor(Color.parseColor(primaryColorHex))
+
+        settingsButton.setColorFilter(Color.parseColor(primaryColorHex))
+    }
 }
 
 
-class AllAppsAdaptor(private val fragment: AllAppsFragment) : RecyclerView.Adapter<AllAppsAdaptor.AppViewHolder>() {
+class AllAppsAdaptor(private val fragment: AllAppsFragment, private val primaryColorHex : String, private val backgroundColorHex : String) : RecyclerView.Adapter<AllAppsAdaptor.AppViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_app, parent, false)
@@ -215,6 +236,7 @@ class AllAppsAdaptor(private val fragment: AllAppsFragment) : RecyclerView.Adapt
         val pm: PackageManager = holder.itemView.context.packageManager
         val app = appList[position]
         holder.appName.text = app.name
+        holder.appName.setTextColor(Color.parseColor(primaryColorHex))
 
         holder.itemView.setOnClickListener {
             // Launch app on tap
