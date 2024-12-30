@@ -213,6 +213,7 @@ class FavoriteAppsAdaptor(private val fragment: HomeFragment, private var shared
                     holder.buttonDown.alpha = 0.0F
                 }
                 else -> {
+                    holder.buttonDown.alpha = 1.0F
                     holder.buttonUp.visibility = View.VISIBLE
                     holder.buttonDown.visibility = View.VISIBLE
                 }
