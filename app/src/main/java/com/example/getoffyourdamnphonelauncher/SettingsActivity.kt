@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,14 +23,24 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SettingsActivity : AppCompatActivity() {
 
-    lateinit var layout: LinearLayout
-    lateinit var title: TextView
-    lateinit var viewBar: View
-    lateinit var colorPrimaryLabel: TextView
-    lateinit var colorBackgroundLabel: TextView
-    lateinit var btnBack: ImageButton
-    lateinit var toggleEditColors: TextView
-    lateinit var collapsibleEditColorsContent: LinearLayout
+    private lateinit var layout: LinearLayout
+    private lateinit var title: TextView
+    private lateinit var viewBar: View
+    private lateinit var colorPrimaryLabel: TextView
+    private lateinit var colorBackgroundLabel: TextView
+    private lateinit var btnBack: ImageButton
+
+    private lateinit var toggleEditColors: TextView
+    private lateinit var collapsibleEditColorsContent: LinearLayout
+
+    private lateinit var toggleThemes: TextView
+    private lateinit var collapsibleThemes: GridLayout
+    private lateinit var hellThemeButton: Button
+    private lateinit var forestThemeButton: Button
+    private lateinit var darculaThemeButton: Button
+    private lateinit var heavenThemeButton: Button
+    private lateinit var ikeaThemeButton: Button
+    private lateinit var berryThemeButton: Button
 
     lateinit var prefs: SharedPreferences
 
@@ -37,6 +48,7 @@ class SettingsActivity : AppCompatActivity() {
     private var backgroundColorHex: String = ""
 
     private var isEditColorsContentVisible = false
+    private var isThemeLayoutVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +65,18 @@ class SettingsActivity : AppCompatActivity() {
         colorBackgroundLabel = findViewById(R.id.color_background_label)
 
         toggleEditColors = findViewById(R.id.toggleEditColors)
+        toggleThemes = findViewById(R.id.toggleThemes)
+
         collapsibleEditColorsContent = findViewById(R.id.collapsibleEditColorsContent)
+        collapsibleThemes = findViewById(R.id.themeLayout)
+
+        hellThemeButton = findViewById(R.id.hellThemeButton)
+        forestThemeButton = findViewById(R.id.forestThemeButton)
+        darculaThemeButton = findViewById(R.id.draculaThemeButton)
+
+        heavenThemeButton = findViewById(R.id.heavenThemeButton)
+        ikeaThemeButton = findViewById(R.id.ikeaThemeButton)
+        berryThemeButton = findViewById(R.id.berryThemeButton)
 
         prefs = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
         val defaultPrimaryColor = String.format("#%06X", 0xFFFFFF and ContextCompat.getColor(this, R.color.colorPrimary))
@@ -74,6 +97,15 @@ class SettingsActivity : AppCompatActivity() {
             isEditColorsContentVisible = !isEditColorsContentVisible
         }
 
+        toggleThemes.setOnClickListener {
+            if (isThemeLayoutVisible) {
+                collapsibleThemes.visibility = View.GONE
+            } else {
+                collapsibleThemes.visibility = View.VISIBLE
+            }
+            isThemeLayoutVisible = !isThemeLayoutVisible
+        }
+
         colorPrimaryLabel.setOnClickListener {
             primaryColorPickerDialog()
         }
@@ -86,19 +118,156 @@ class SettingsActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+        hellThemeButton.setOnClickListener {
+            primaryColorHex = "#950101"
+            backgroundColorHex = "#000000"
+
+            // Parse colors to ensure they are valid
+            Color.parseColor(primaryColorHex)
+            Color.parseColor(backgroundColorHex)
+
+            // Save to SharedPreferences
+            with(prefs.edit()) {
+                putString("colorPrimary", primaryColorHex)
+                putString("colorBackground", backgroundColorHex)
+                apply()
+            }
+
+            // Apply the new colors
+            updateColors(primaryColorHex, backgroundColorHex)
+        }
+
+        forestThemeButton.setOnClickListener {
+            primaryColorHex = "#DAD7CD"
+            backgroundColorHex = "#588157"
+
+            // Parse colors to ensure they are valid
+            Color.parseColor(primaryColorHex)
+            Color.parseColor(backgroundColorHex)
+
+            // Save to SharedPreferences
+            with(prefs.edit()) {
+                putString("colorPrimary", primaryColorHex)
+                putString("colorBackground", backgroundColorHex)
+                apply()
+            }
+
+            // Apply the new colors
+            updateColors(primaryColorHex, backgroundColorHex)
+        }
+
+        darculaThemeButton.setOnClickListener {
+            primaryColorHex = "#FF80BF"
+            backgroundColorHex = "#21222c"
+
+            // Parse colors to ensure they are valid
+            Color.parseColor(primaryColorHex)
+            Color.parseColor(backgroundColorHex)
+
+            // Save to SharedPreferences
+            with(prefs.edit()) {
+                putString("colorPrimary", primaryColorHex)
+                putString("colorBackground", backgroundColorHex)
+                apply()
+            }
+
+            // Apply the new colors
+            updateColors(primaryColorHex, backgroundColorHex)
+        }
+
+        heavenThemeButton.setOnClickListener {
+            primaryColorHex = "#80BFFF"
+            backgroundColorHex = "#EEEEEE"
+
+            // Parse colors to ensure they are valid
+            Color.parseColor(primaryColorHex)
+            Color.parseColor(backgroundColorHex)
+
+            // Save to SharedPreferences
+            with(prefs.edit()) {
+                putString("colorPrimary", primaryColorHex)
+                putString("colorBackground", backgroundColorHex)
+                apply()
+            }
+
+            // Apply the new colors
+            updateColors(primaryColorHex, backgroundColorHex)
+        }
+
+        ikeaThemeButton.setOnClickListener {
+            primaryColorHex = "#FBD914"
+            backgroundColorHex = "#0058AB"
+
+            // Parse colors to ensure they are valid
+            Color.parseColor(primaryColorHex)
+            Color.parseColor(backgroundColorHex)
+
+            // Save to SharedPreferences
+            with(prefs.edit()) {
+                putString("colorPrimary", primaryColorHex)
+                putString("colorBackground", backgroundColorHex)
+                apply()
+            }
+
+            // Apply the new colors
+            updateColors(primaryColorHex, backgroundColorHex)
+        }
+
+        berryThemeButton.setOnClickListener {
+            primaryColorHex = "#17153B"
+            backgroundColorHex = "#C8ACD6"
+
+            // Parse colors to ensure they are valid
+            Color.parseColor(primaryColorHex)
+            Color.parseColor(backgroundColorHex)
+
+            // Save to SharedPreferences
+            with(prefs.edit()) {
+                putString("colorPrimary", primaryColorHex)
+                putString("colorBackground", backgroundColorHex)
+                apply()
+            }
+
+            // Apply the new colors
+            updateColors(primaryColorHex, backgroundColorHex)
+        }
     }
 
     private fun updateColors(primaryColorHex : String, backgroundColorHex : String) {
-        layout.setBackgroundColor(Color.parseColor(backgroundColorHex))
+        val primaryColor = Color.parseColor(primaryColorHex)
+        val backgroundColor = Color.parseColor(backgroundColorHex)
 
-        title.setTextColor(Color.parseColor(primaryColorHex))
-        btnBack.setColorFilter(Color.parseColor(primaryColorHex))
+        layout.setBackgroundColor(backgroundColor)
 
-        viewBar.setBackgroundColor(Color.parseColor(primaryColorHex))
-        toggleEditColors.setTextColor(Color.parseColor(primaryColorHex))
+        title.setTextColor(primaryColor)
+        btnBack.setColorFilter(primaryColor)
 
-        colorPrimaryLabel.setTextColor(Color.parseColor(primaryColorHex))
-        colorBackgroundLabel.setTextColor(Color.parseColor(primaryColorHex))
+        viewBar.setBackgroundColor(primaryColor)
+        toggleEditColors.setTextColor(primaryColor)
+
+        colorPrimaryLabel.setTextColor(primaryColor)
+        colorBackgroundLabel.setTextColor(primaryColor)
+
+        toggleThemes.setTextColor(primaryColor)
+
+        hellThemeButton.setBackgroundColor(Color.parseColor("#950101"))
+        hellThemeButton.setTextColor(Color.parseColor("#000000"))
+
+        forestThemeButton.setBackgroundColor(Color.parseColor("#DAD7CD"))
+        forestThemeButton.setTextColor(Color.parseColor("#588157"))
+
+        darculaThemeButton.setBackgroundColor(Color.parseColor("#FF80BF"))
+        darculaThemeButton.setTextColor(Color.parseColor("#21222c"))
+
+        heavenThemeButton.setBackgroundColor(Color.parseColor("#80BFFF"))
+        heavenThemeButton.setTextColor(Color.parseColor("#C9DABF"))
+
+        ikeaThemeButton.setBackgroundColor(Color.parseColor("#FBD914"))
+        ikeaThemeButton.setTextColor(Color.parseColor("#0058AB"))
+
+        berryThemeButton.setBackgroundColor(Color.parseColor("#17153B"))
+        berryThemeButton.setTextColor(Color.parseColor("#C8ACD6"))
     }
 
     private fun primaryColorPickerDialog() {
@@ -107,12 +276,12 @@ class SettingsActivity : AppCompatActivity() {
         val title: TextView = colorPickerDialogView.findViewById(R.id.title)
         val viewBar: View = colorPickerDialogView.findViewById(R.id.viewBar)
 
-        val redText: TextView = colorPickerDialogView.findViewById(R.id.redEditBox)
-        val greenEditBox: TextView = colorPickerDialogView.findViewById(R.id.greenEditBox)
-        val blueEditBox: TextView = colorPickerDialogView.findViewById(R.id.blueEditBox)
-        redText.text = Color.parseColor(primaryColorHex).red.toString()
-        greenEditBox.text = Color.parseColor(primaryColorHex).green.toString()
-        blueEditBox.text = Color.parseColor(primaryColorHex).blue.toString()
+        val redTextView: TextView = colorPickerDialogView.findViewById(R.id.redEditBox)
+        val greenTextView: TextView = colorPickerDialogView.findViewById(R.id.greenEditBox)
+        val blueTextView: TextView = colorPickerDialogView.findViewById(R.id.blueEditBox)
+        redTextView.text = Color.parseColor(primaryColorHex).red.toString()
+        greenTextView.text = Color.parseColor(primaryColorHex).green.toString()
+        blueTextView.text = Color.parseColor(primaryColorHex).blue.toString()
 
         val redSlider: com.google.android.material.slider.Slider = colorPickerDialogView.findViewById(R.id.redSlider)
         val greenSlider: com.google.android.material.slider.Slider = colorPickerDialogView.findViewById(R.id.greenSlider)
@@ -189,9 +358,9 @@ class SettingsActivity : AppCompatActivity() {
             title.setTextColor(currentColor)
             viewBar.setBackgroundColor(currentColor)
 
-            redText.text = red.toString()
-            greenEditBox.text = green.toString()
-            blueEditBox.text = blue.toString()
+            redTextView.text = red.toString()
+            greenTextView.text = green.toString()
+            blueTextView.text = blue.toString()
             primaryColorHex = String.format("#%06X", 0xFFFFFF and currentColor)
         }
 
@@ -210,12 +379,12 @@ class SettingsActivity : AppCompatActivity() {
         val title: TextView = colorPickerDialogView.findViewById(R.id.title)
         title.text = "Change Background Color"
 
-        val redTextBox: TextView = colorPickerDialogView.findViewById(R.id.redEditBox)
-        val greenTextBox: TextView = colorPickerDialogView.findViewById(R.id.greenEditBox)
-        val blueTextBox: TextView = colorPickerDialogView.findViewById(R.id.blueEditBox)
-        redTextBox.text = Color.parseColor(backgroundColorHex).red.toString()
-        greenTextBox.text = Color.parseColor(backgroundColorHex).green.toString()
-        blueTextBox.text = Color.parseColor(backgroundColorHex).blue.toString()
+        val redTextView: TextView = colorPickerDialogView.findViewById(R.id.redEditBox)
+        val greenTextView: TextView = colorPickerDialogView.findViewById(R.id.greenEditBox)
+        val blueTextView: TextView = colorPickerDialogView.findViewById(R.id.blueEditBox)
+        redTextView.text = Color.parseColor(backgroundColorHex).red.toString()
+        greenTextView.text = Color.parseColor(backgroundColorHex).green.toString()
+        blueTextView.text = Color.parseColor(backgroundColorHex).blue.toString()
 
         val redSlider: com.google.android.material.slider.Slider = colorPickerDialogView.findViewById(R.id.redSlider)
         val greenSlider: com.google.android.material.slider.Slider = colorPickerDialogView.findViewById(R.id.greenSlider)
@@ -291,9 +460,9 @@ class SettingsActivity : AppCompatActivity() {
             btnCancel.setTextColor(currentColor)
             btnSave.setTextColor(currentColor)
 
-            redTextBox.text = red.toString()
-            greenTextBox.text = green.toString()
-            blueTextBox.text = blue.toString()
+            redTextView.text = red.toString()
+            greenTextView.text = green.toString()
+            blueTextView.text = blue.toString()
             backgroundColorHex = String.format("#%06X", 0xFFFFFF and currentColor)
         }
 

@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="@color/colorBackground">
 
-
     <!-- Title Bar -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,7 +45,7 @@
 
     <TextView
         android:id="@+id/toggleEditColors"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
         android:padding="10dp"
@@ -81,4 +80,99 @@
             android:textStyle="italic"
             android:text="Background Color"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/toggleThemes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:padding="10dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="Select Theme"/>
+
+    <GridLayout
+        android:id="@+id/themeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="2"
+        android:alignmentMode="alignMargins"
+        android:padding="8dp"
+        android:useDefaultMargins="true"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/hellThemeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:text="Hell"
+            android:background="@null"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/forestThemeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:text="Forest"
+            android:background="@null"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/draculaThemeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:text="Dracula"
+            android:background="@null"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/heavenThemeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:text="Heaven"
+            android:background="@null"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/ikeaThemeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:text="AEKI"
+            android:background="@null"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/berryThemeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:text="Berry"
+            android:background="@null"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp" />
+    </GridLayout>
+
 </LinearLayout>
